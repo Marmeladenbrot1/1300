@@ -1,0 +1,233 @@
+internal class Program
+{
+    private static void Main()
+    {
+        Auswahl();
+    }
+
+    private static void Auswahl()
+    {
+        int auswählen = 0;
+        Console.WriteLine("Willst du eine Zufällige Zahl erraten (gib 1 ein) oder soll der Pc deine Zahl erraten? (gib 2 ein)");
+        while (auswählen == 0)
+        {
+            try
+            {
+                auswählen = Convert.ToInt32(Console.ReadLine());
+                if (auswählen == 1)
+                {
+                    Console.Clear();
+                    RandomNumberGuesser();
+                }
+                else if (auswählen == 2)
+                {
+                    Console.Clear();
+                    PcGueser();
+                }
+                else
+                {
+                    auswählen = 0;
+                    Console.WriteLine("Gib 1 oder 2 ein!");
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Gib 1 oder 2 ein!");
+            }
+        }
+    }
+
+    private static void RandomNumberGuesser()
+    {
+        int Versuche = 0;
+        int Grösse = 0;
+        Console.WriteLine("Gib eine Zahle ein. Es wird eine Random Zahl zwischen 1 und der eingegebenen Zahl generiert.");
+        while(Grösse == 0)
+        {
+            try
+            {
+                Grösse = Convert.ToInt32(Console.ReadLine());
+                if (Grösse - Grösse == 0 && Grösse > 1)
+                {
+
+                }
+                else
+                {
+                    Grösse = 0;
+                    throw new Exception();
+                }
+                
+            }
+            catch
+            {
+                Console.WriteLine("Gib eine Korekte Zahl ein.");
+            }
+        }
+        int Zahl = new Random().Next(1, Grösse);
+        Console.Clear();
+        Console.WriteLine("Eine Zahl wurde generiert.");
+        Console.WriteLine("Versuche, diese nun zu erraten.");
+        Console.WriteLine("Viel Spass.");
+        Console.WriteLine("Gib nun eine Zahl zwischen 1 und " + Grösse + " ein.");
+        int Eingabe = 0;
+
+        while (Eingabe != Zahl)
+        {
+            try
+            {
+
+                Eingabe = Convert.ToInt32(Console.ReadLine());
+                if (Eingabe > Grösse || Eingabe < 0)
+                {
+                    throw new Exception();
+                }
+
+                if (Zahl == Eingabe)
+                {
+
+                    Console.Clear();
+                    Versuche = Versuche + 1;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Du hast die richtige Zahl erraten.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write("Du hast ");
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
+                    Console.Write(Versuche);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(" Versuche gebraucht, um die Zahl zu erraten. ");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine("Drücke eine beliebige Taste, um das Programm zu beenden.");
+                    Console.ReadKey(true);
+
+                }
+                else
+                {
+
+                    if (Zahl > Eingabe)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        Console.WriteLine("Deine Zahl ist zu klein, versuche es nochmals.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Versuche = Versuche + 1;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Deine Zahl ist zu gross, versuche es nochmals.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Versuche = Versuche + 1;
+                    }
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Ungültige Eingabe");
+            }
+        }
+    }
+
+    private static void PcGueser()
+    {
+        Console.WriteLine("Gib eine Zahl ein. Die Zahl gibt die Range ein in der Ich später die Gesuchte Zahl suchen werde.");
+        int Range = 0;
+        while (Range == 0)
+        {
+            try
+            {
+                Range = Convert.ToInt32(Console.ReadLine());
+                if (Range - Range == 0 && Range > 1)
+                {
+
+                }
+                else
+                {
+                    Range = 0;
+                    throw new Exception();
+                }
+
+            }
+            catch
+            {
+                Console.WriteLine("Gib eine Korekte Zahl ein.");
+            }
+        }
+        Console.Clear();
+        Console.WriteLine("Gib nun die Zahl ein die Ich erraten soll. Diese muss zwischen 1 und " + Range + " liegen.");
+        int RichtigeZahl = 0;
+        while (RichtigeZahl == 0)
+        {
+            try
+            {
+                RichtigeZahl = Convert.ToInt32(Console.ReadLine());
+                if (RichtigeZahl - RichtigeZahl == 0 && RichtigeZahl > 0 && RichtigeZahl < Range + 1)
+                {
+
+                }
+                else
+                {
+                    RichtigeZahl = 0;
+                    throw new Exception();
+                }
+
+            }
+            catch
+            {
+                Console.WriteLine("Gib eine Korekte Zahl ein.");
+            }
+        }
+
+        int TiefeZahl = 0;
+        int HoheZahl = Range + 1;
+        int GuesZahl = 0;
+        int Versuche = 0;
+        Console.Clear();
+        while (GuesZahl != RichtigeZahl)
+        {
+            GuesZahl = new Random().Next(TiefeZahl + 1, HoheZahl);
+            if(GuesZahl == RichtigeZahl)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("Ich habe es geschaft. Ich habe ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(GuesZahl);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(" erraten.");
+                Console.ForegroundColor = ConsoleColor.White;
+                Versuche = Versuche + 1;
+                Console.WriteLine("Ich habe die Zahl in " + Versuche + " Versuchen herausgefunden.");
+            }
+            else if (GuesZahl < RichtigeZahl)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.Write("Ich habe eine zu kleine Zahl gewählt. Ich habe ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(GuesZahl);
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine(" geraten.");
+                Console.ForegroundColor = ConsoleColor.White;
+                TiefeZahl = GuesZahl;
+                Versuche = Versuche + 1;
+                Console.WriteLine("Ich habe bisher " + Versuche + " Versuche gebraucht.");
+                Console.WriteLine("Drücke eine Taste damit Ich den nächsten Versuch machen kann.");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.Write("Ich habe eine zu kleine Zahl gewählt. Ich habe ");
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(GuesZahl);
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(" geraten.");
+                Console.ForegroundColor = ConsoleColor.White;
+                HoheZahl = GuesZahl;
+                Versuche = Versuche + 1;
+                Console.WriteLine("Ich habe bisher " + Versuche + " Versuche gebraucht.");
+                Console.WriteLine("Drücke eine Taste damit Ich den nächsten Versuch machen kann.");
+                Console.ReadKey();
+                Console.Clear();
+            }
+        }
+    }
+}
